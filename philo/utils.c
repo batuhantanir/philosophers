@@ -6,12 +6,13 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 13:39:53 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/27 13:41:16 by btanir           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:24:24 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
+#include <sys/time.h>
 
 long	ft_atol(const char *str)
 {
@@ -40,4 +41,12 @@ int	ft_isdigit(int c)
 	if (c >= 48 && c <= 57)
 		return (1);
 	return (0);
+}
+
+long long	get_time(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return ((((long long)time.tv_sec) * 1000) + (time.tv_usec / 1000));
 }
