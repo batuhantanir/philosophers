@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 15:19:20 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/27 15:24:21 by btanir           ###   ########.fr       */
+/*   Updated: 2024/07/28 18:06:39 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ pthread_mutex_t	*init_forks(t_data *data)
 
 t_philo	*init_philo(t_data *data, pthread_mutex_t *forks)
 {
-	int i;
-	t_philo *philo;
+	int		i;
+	t_philo	*philo;
 
 	philo = malloc(sizeof(t_philo) * data->philo_count);
 	if (!philo && printf("%s\n", ALLOCATION_ERR))

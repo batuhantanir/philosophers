@@ -6,13 +6,14 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 13:39:53 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/27 15:24:24 by btanir           ###   ########.fr       */
+/*   Updated: 2024/07/28 18:07:43 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdlib.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 long	ft_atol(const char *str)
 {
@@ -31,7 +32,7 @@ long	ft_atol(const char *str)
 	while (str[i] >= 48 && str[i] <= 57)
 		tmp = (tmp * 10) + (str[i++] - 48);
 	if ((tmp * sign < -2147483648 || tmp * sign > 2147483647)
-		&& printf("max int error\n"))
+		&& printf("Error: Max_integer\n"))
 		exit(1);
 	return (tmp * sign);
 }
@@ -45,8 +46,17 @@ int	ft_isdigit(int c)
 
 long long	get_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	return ((((long long)time.tv_sec) * 1000) + (time.tv_usec / 1000));
+}
+
+void	ft_usleep(int wait_time)
+{
+	unsigned long long	time;
+
+	time = get_time();
+	while (get_time() - time < (unsigned long long)wait_time)
+		usleep(100);
 }

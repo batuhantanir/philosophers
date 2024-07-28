@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 10:34:40 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/27 15:24:41 by btanir           ###   ########.fr       */
+/*   Updated: 2024/07/28 17:58:49 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ typedef struct s_philo
 # define ARGS_ERR "Invalid arguments"
 # define MUTEX_ERR "Failed to initialize mutex"
 # define ALLOCATION_ERR "malloc() failed to allocate memory"
+# define CREATE_ERR "Failed to create a thread"
+# define JOIN_ERR "Failed to join a thread"
+
+# define FORK "has taken a fork"
+# define EATING "is eating"
+# define SLEEPING "is sleeping"
+# define THINKING "is thinking"
+# define DEAD "died"
 
 int					arg_control(int argc, char **argv);
 int					control_data(t_data *data);
@@ -53,4 +61,9 @@ int					ft_isdigit(int c);
 pthread_mutex_t		*init_forks(t_data *data);
 long long			get_time(void);
 t_philo				*init_philo(t_data *data, pthread_mutex_t *forks);
+int					start_sim(t_data *data, t_philo *philo);
+void				ft_usleep(int wait_time);
+void				display(t_philo *philo, char *msg);
+void				destroy(t_data *data, pthread_mutex_t *forks,
+						t_philo *philos);
 #endif
