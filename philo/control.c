@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 13:33:03 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/27 13:37:11 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/09 18:28:52 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	init_data(t_data *data, char **argv)
 		data->philo_must_eat = ft_atol(argv[5]);
 	else
 		data->philo_must_eat = -1;
-	if (pthread_mutex_init(&data->display, NULL) && printf("%s\n",
-			MUTEX_ERR))
+	if (pthread_mutex_init(&data->display, NULL) && printf("%s\n", MUTEX_ERR))
+		return (1);
+	if (pthread_mutex_init(&data->dead_mtx, NULL) && printf("%s\n", MUTEX_ERR))
 		return (1);
 	return (0);
 }

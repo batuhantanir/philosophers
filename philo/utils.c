@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 13:39:53 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/28 18:07:43 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/07 10:35:03 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ long	ft_atol(const char *str)
 		tmp = (tmp * 10) + (str[i++] - 48);
 	if ((tmp * sign < -2147483648 || tmp * sign > 2147483647)
 		&& printf("Error: Max_integer\n"))
-		exit(1);
+		return (0);
 	return (tmp * sign);
 }
 

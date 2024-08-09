@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 10:34:40 by btanir            #+#    #+#             */
-/*   Updated: 2024/07/28 17:58:49 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/09 19:00:59 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_data
 	int				philo_must_eat;
 	int				philo_sleep_time;
 	pthread_mutex_t	display;
+	pthread_mutex_t	dead_mtx;
 }					t_data;
 
 typedef struct s_philo
@@ -66,4 +67,5 @@ void				ft_usleep(int wait_time);
 void				display(t_philo *philo, char *msg);
 void				destroy(t_data *data, pthread_mutex_t *forks,
 						t_philo *philos);
+void				stalker(t_philo *philo, t_data *data);
 #endif
