@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 17:50:15 by btanir            #+#    #+#             */
-/*   Updated: 2024/08/09 19:40:38 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/10 11:17:03 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int	start_sim(t_data *data, t_philo *philo)
 	return (1);
 }
 
+static void	wait_even(t_philo *philo)
+{
+	if (philo->philo_index % 2 == 0)
+	{
+		ft_usleep(philo->data->philo_eat_time);
+		pthread_mutex_lock(&philo->philo_last_eat_mutex);
+		philo->philo_last_eat = get_time();
+		pthread_mutex_unlock(&philo->philo_last_eat_mutex);
+	}
+}
+
 static void	*philo_routine(void *philos)
 {
 	t_philo	*philo;
@@ -46,17 +57,8 @@ static void	*philo_routine(void *philos)
 	philo->philo_last_eat = get_time();
 	pthread_mutex_unlock(&philo->philo_last_eat_mutex);
 	if (philo->data->philo_count == 1)
-	{
-		one_philo(philo);
-		return (NULL);
-	}
-	if (philo->philo_index % 2 == 0)
-	{
-		ft_usleep(philo->data->philo_eat_time);
-		pthread_mutex_lock(&philo->philo_last_eat_mutex);
-		philo->philo_last_eat = get_time();
-		pthread_mutex_unlock(&philo->philo_last_eat_mutex);
-	}
+		return (one_philo(philo), NULL);
+	wait_even(philo);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->dead_mtx);
@@ -67,14 +69,16 @@ static void	*philo_routine(void *philos)
 		pthread_mutex_unlock(&philo->data->dead_mtx);
 		eat(philo);
 	}
+	pthread_mutex_unlock(&philo->data->dead_mtx);
 	return (NULL);
 }
 
-
 static void	one_philo(t_philo *philo)
 {
+	pthread_mutex_lock(philo->left_fork);
 	display(philo, FORK);
 	ft_usleep(philo->data->philo_live_time);
+	pthread_mutex_unlock(philo->left_fork);
 	display(philo, DEAD);
 	return ;
 }
@@ -86,9 +90,9 @@ static void	eat(t_philo *philo)
 	pthread_mutex_lock(philo->right_fork);
 	display(philo, FORK);
 	display(philo, EATING);
+	pthread_mutex_lock(&philo->philo_last_eat_mutex);
 	if (philo->data->philo_must_eat)
 		philo->philo_loop--;
-	pthread_mutex_lock(&philo->philo_last_eat_mutex);
 	philo->philo_last_eat = get_time();
 	pthread_mutex_unlock(&philo->philo_last_eat_mutex);
 	ft_usleep(philo->data->philo_eat_time);

@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 17:52:32 by btanir            #+#    #+#             */
-/*   Updated: 2024/08/09 18:28:46 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/10 10:44:22 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,4 @@ void	destroy(t_data *data, pthread_mutex_t *forks, t_philo *philos)
 			philos[i].right_fork = NULL;
 		}
 	}
-
 }
