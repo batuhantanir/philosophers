@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/27 10:33:43 by btanir            #+#    #+#             */
-/*   Updated: 2024/08/09 17:41:33 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/11 10:39:42 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	start_philo(t_data *data)
 		return (FAILURE);
 	philo = init_philo(data, forks);
 	if (!philo)
-		return (FAILURE);
+		return (destroy_fork(data, forks, data->fork_count), free(forks),
+			FAILURE);
 	if (start_sim(data, philo))
 		destroy(data, forks, philo);
 	free(forks);
@@ -35,8 +36,7 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if (arg_control(argc, argv) || init_data(&data, argv) || control_data(&data)
-		|| start_philo(&data))
+	if (arg_control(argc, argv) || init_data(&data, argv) || start_philo(&data))
 		return (FAILURE);
 	return (SUCCESS);
 }

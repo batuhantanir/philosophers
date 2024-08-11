@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:40:46 by btanir            #+#    #+#             */
-/*   Updated: 2024/08/10 11:19:34 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/11 02:00:28 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	one_philo_stalker(t_data *data, t_philo *philo)
 static int	check_stalker(t_philo *philo, int i)
 {
 	pthread_mutex_lock(&philo[i].philo_last_eat_mutex);
-	if (philo->data->philo_must_eat != 0 && philo->philo_loop == 0)
+	if (philo->data->philo_must_eat != 0 && philo[i].philo_loop == 0)
 	{
 		pthread_mutex_unlock(&philo[i].philo_last_eat_mutex);
-		return (1);
+		return (i + 1);
 	}
 	if ((get_time()
 			- philo[i].philo_last_eat) >= philo[i].data->philo_live_time)
@@ -49,7 +49,7 @@ static int	check_stalker(t_philo *philo, int i)
 		philo[i].data->philo_dead = 1;
 		pthread_mutex_unlock(&philo[i].data->dead_mtx);
 		pthread_mutex_unlock(&philo[i].philo_last_eat_mutex);
-		return (1);
+		return (-1);
 	}
 	pthread_mutex_unlock(&philo[i].philo_last_eat_mutex);
 	return (0);
@@ -58,15 +58,20 @@ static int	check_stalker(t_philo *philo, int i)
 void	stalker(t_philo *philo, t_data *data)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = 0;
 	if (one_philo_stalker(data, philo))
 		return ;
 	while (1)
 	{
-		if (i < data->philo_count)
-			i = 0;
-		if (check_stalker(philo, i))
+		if (!(i < data->philo_count))
+			i = j;
+		if (j == data->philo_count)
+			break ;
+		j = check_stalker(philo, i);
+		if (j == -1)
 			break ;
 		i++;
 	}

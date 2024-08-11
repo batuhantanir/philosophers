@@ -6,7 +6,7 @@
 /*   By: btanir <btanir@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 17:50:15 by btanir            #+#    #+#             */
-/*   Updated: 2024/08/10 11:17:03 by btanir           ###   ########.fr       */
+/*   Updated: 2024/08/11 10:28:34 by btanir           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ static void	eat(t_philo *philo)
 	ft_usleep(philo->data->philo_eat_time);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	if (philo->data->philo_must_eat && philo->philo_loop == 0)
+		return ;
 	display(philo, SLEEPING);
 	ft_usleep(philo->data->philo_sleep_time);
 	display(philo, THINKING);
